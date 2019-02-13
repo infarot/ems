@@ -23,11 +23,10 @@ public class SeamstressController {
         return seamstressDAO.getAll();
     }
 
-    /*
+
     @GetMapping("/seamstress/results/{seamstressId}")
     public List<Result> getAllResults(@PathVariable int seamstressId){
         System.out.println(seamstressDAO.getAllResults(seamstressId));
         return seamstressDAO.getAllResults(seamstressId);
     }
-    */
 }
