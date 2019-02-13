@@ -37,7 +37,10 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     }
 
     @Override
-    public List<Result> getAllResults() {
-        return null;
+    @Transactional
+    public List<Result> getAllResults(int id) {
+        Session session = entityManager.unwrap(Session.class);
+        return session.get(Seamstress.class,id).getResults();
     }
+
 }

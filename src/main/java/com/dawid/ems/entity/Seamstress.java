@@ -15,12 +15,20 @@ public class Seamstress {
     private String name;
     @Column(name = "last_name")
     private String lastName;
-    @OneToMany(mappedBy = "seamstress")
+    @OneToMany(mappedBy = "seamstress", fetch = FetchType.LAZY)
     private List<Result> results;
 
     public Seamstress(String name, String lastName) {
         this.name = name;
         this.lastName = lastName;
+    }
+
+    public List<Result> getResults() {
+        return results;
+    }
+
+    public void setResults(List<Result> results) {
+        this.results = results;
     }
 
     public Seamstress() {

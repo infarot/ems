@@ -8,5 +8,5 @@ import java.util.List;
 public interface SeamstressDAO {
     List<Seamstress> getAll();
     Seamstress getSingle();
-    List<Result> getAllResults();
+    List<Result> getAllResults(int id);
 }

@@ -1,17 +1,17 @@
 package com.dawid.ems.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "seamstress_result")
 public class Result {
 
     @Id
     @Column(name = "id")
-    private int id;
+    private String id;
     @Column(name = "date")
     private LocalDate date;
     @Column(name = "percentage_result")
@@ -19,16 +19,17 @@ public class Result {
     @Column(name = "shift")
     private char shift;
     @ManyToOne
+    @JoinColumn(name="seamstress_id")
     private Seamstress seamstress;
 
     public Result() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -56,6 +57,7 @@ public class Result {
         this.shift = shift;
     }
 
+    @JsonIgnore
     public Seamstress getSeamstress() {
         return seamstress;
     }
