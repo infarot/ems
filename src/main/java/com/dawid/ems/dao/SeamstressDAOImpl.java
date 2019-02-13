@@ -24,7 +24,6 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     }
 
     @Override
-    @Transactional
     public List<Seamstress> getAll() {
         Session session = entityManager.unwrap(Session.class);
         Query<Seamstress> query = session.createQuery("from Seamstress", Seamstress.class);
@@ -32,12 +31,12 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     }
 
     @Override
-    public Seamstress getSingle() {
-        return null;
+    public Seamstress getSingle(int id) {
+        Session session = entityManager.unwrap(Session.class);
+        return session.get(Seamstress.class,id);
     }
 
     @Override
-    @Transactional
     public List<Result> getAllResults(int id) {
         Session session = entityManager.unwrap(Session.class);
         return session.get(Seamstress.class,id).getResults();
