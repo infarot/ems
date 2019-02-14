@@ -27,7 +27,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/user").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/users").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/api/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
