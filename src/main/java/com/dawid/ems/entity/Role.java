@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "role")
 public class Role {
 
     @Id
@@ -15,17 +16,17 @@ public class Role {
 
     @Enumerated
     @Column(name = "role")
-    private Roles role;
+    private Roles roles;
 
     @ManyToOne
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Override
     public String toString() {
         return "Role{" +
                 "id=" + id +
-                ", role=" + role +
+                ", role=" + roles +
                 '}';
     }
 
@@ -47,10 +48,10 @@ public class Role {
     }
 
     public Roles getRole() {
-        return role;
+        return roles;
     }
 
     public void setRole(Roles role) {
-        this.role = role;
+        this.roles = role;
     }
 }

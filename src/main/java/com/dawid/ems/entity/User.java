@@ -8,6 +8,8 @@ import java.util.List;
 public class User {
 
     @Id
+    @Column(name = "id")
+    private int id;
     @Column(name = "username")
     private String username;
 
