@@ -60,8 +60,8 @@ public class SeamstressController {
         for (LocalDate d : map.keySet()) {
             percentageResultMap.put(d, map.get(d).stream().mapToDouble(Result::getPercentageResult).sum());
         }
-        //calculate average and ignore results which are less then 30 %
-        OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 30).mapToDouble(a -> a).average();
+        //calculate average and ignore results which are less then 50 %
+        OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 50).mapToDouble(a -> a).average();
 
         if (average.isPresent()) {
             return average.getAsDouble();
@@ -69,4 +69,10 @@ public class SeamstressController {
             return 0.0;
         }
     }
+
+    @GetMapping("/seamstress/score/{seamstressId}")
+    public Double getScore(@PathVariable int seamstressId){
+        return seamstressService.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum();
+    }
+
 }
