@@ -1,5 +1,7 @@
 package com.dawid.ems.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class Seamstress {
         this.lastName = lastName;
     }
 
+    @JsonIgnore
     public List<Result> getResults() {
         return results;
     }
