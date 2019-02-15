@@ -33,7 +33,7 @@ public class Result {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public  LocalDate getDate() {
         return date;
     }
 
