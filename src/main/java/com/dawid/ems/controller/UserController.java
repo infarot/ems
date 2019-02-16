@@ -1,25 +1,37 @@
 package com.dawid.ems.controller;
 
-import com.dawid.ems.entity.User;
-import com.dawid.ems.service.UserService;
+import com.dawid.ems.repository.UserRepository;
+import com.dawid.ems.Security.CurrentUser;
+import com.dawid.ems.Security.UserPrincipal;
+import com.dawid.ems.payload.UserSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    private final UserService userService;
+
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    @GetMapping("/users/{username}")
-    public User getUser(@PathVariable String username){
-        return userService.findByUsername(username);
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        return new UserSummary(currentUser.getId(), currentUser.getUsername());
     }
+
+    @GetMapping("/user/checkUsernameAvailability")
+    public boolean checkUsernameAvailability(@RequestParam(value = "username") String username) {
+        return !userRepository.existsByUsername(username);
+    }
+
+
 }

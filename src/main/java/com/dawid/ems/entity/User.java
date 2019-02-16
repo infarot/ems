@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
     @Column(name = "username")
     private String username;
 
@@ -29,6 +29,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public List<Role> getRoles() {
@@ -55,4 +63,8 @@ public class User {
         this.password = password;
     }
 
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

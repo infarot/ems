@@ -54,4 +54,12 @@ public class Role {
     public void setRole(Roles role) {
         this.roles = role;
     }
+
+    public Role(Roles roles, User user) {
+        this.roles = roles;
+        this.user = user;
+    }
+
+    public Role() {
+    }
 }
