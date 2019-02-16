@@ -5,10 +5,7 @@ import com.dawid.ems.entity.Seamstress;
 import com.dawid.ems.exception.SeamstressNotFoundException;
 import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -26,12 +23,16 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress")
+    @CrossOrigin(origins = "http://localhost:3000")
     public List<Seamstress> getAll() {
-        return seamstressService.getAll();
+        List<Seamstress> seamstresses = seamstressService.getAll();
+        Collections.sort(seamstresses);
+        return seamstresses;
     }
 
 
     @GetMapping("/seamstress/results/{seamstressId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public List<Result> getAllResults(@PathVariable int seamstressId) {
         Seamstress seamstress = seamstressService.getSingle(seamstressId);
         if (seamstress == null) {
@@ -41,6 +42,7 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/{seamstressId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Seamstress getSingle(@PathVariable int seamstressId) {
         Seamstress seamstress = seamstressService.getSingle(seamstressId);
         if (seamstress == null) {
@@ -50,6 +52,7 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/results/average/{seamstressId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Double getAverageResult(@PathVariable int seamstressId) {
         List<Result> results = seamstressService.getAllResults(seamstressId);
         //get all results from one day
@@ -70,6 +73,7 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/score/{seamstressId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public Double getScore(@PathVariable int seamstressId){
         return seamstressService.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum();
     }

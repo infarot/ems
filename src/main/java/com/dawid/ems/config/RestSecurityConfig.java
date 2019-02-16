@@ -28,6 +28,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/api/seamstress").permitAll()
+                .antMatchers("/api/seamstress/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/api/users").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET,"/api/users/**").hasRole("ADMIN")
                 .anyRequest().authenticated()

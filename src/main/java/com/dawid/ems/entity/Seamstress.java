@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "seamstress")
-public class Seamstress {
+public class Seamstress implements Comparable<Seamstress> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +60,26 @@ public class Seamstress {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Seamstress)) return false;
+        Seamstress that = (Seamstress) o;
+        return getId() == that.getId() &&
+                getName().equals(that.getName()) &&
+                getLastName().equals(that.getLastName()) &&
+                Objects.equals(getResults(), that.getResults());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getLastName());
+    }
+
+    @Override
+    public int compareTo(Seamstress o) {
+        return getLastName().compareTo(o.getLastName());
     }
 }
