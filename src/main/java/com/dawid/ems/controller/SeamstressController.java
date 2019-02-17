@@ -23,7 +23,6 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress")
-    @CrossOrigin(origins = "http://localhost:3000")
     public List<Seamstress> getAll() {
         List<Seamstress> seamstresses = seamstressService.getAll();
         Collections.sort(seamstresses);
@@ -32,7 +31,6 @@ public class SeamstressController {
 
 
     @GetMapping("/seamstress/results/{seamstressId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public List<Result> getAllResults(@PathVariable int seamstressId) {
         Seamstress seamstress = seamstressService.getSingle(seamstressId);
         if (seamstress == null) {
@@ -42,7 +40,6 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/{seamstressId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Seamstress getSingle(@PathVariable int seamstressId) {
         Seamstress seamstress = seamstressService.getSingle(seamstressId);
         if (seamstress == null) {
@@ -52,7 +49,6 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/results/average/{seamstressId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Double getAverageResult(@PathVariable int seamstressId) {
         List<Result> results = seamstressService.getAllResults(seamstressId);
         //get all results from one day
@@ -73,7 +69,6 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/score/{seamstressId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public Double getScore(@PathVariable int seamstressId){
         return seamstressService.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum();
     }
