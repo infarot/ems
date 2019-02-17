@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/auth/signin")
                 .permitAll()
+                .antMatchers("/api/seamstress")
+                .permitAll()
                 .antMatchers(HttpMethod.GET,"/api/user/checkUsernameAvailability").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/auth/signup").hasRole("ADMIN")
                 .anyRequest()
