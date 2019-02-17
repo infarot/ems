@@ -25,8 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 
 @RestController
@@ -68,20 +67,14 @@ public class AuthController {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
-
         User user = new User(signUpRequest.getUsername(), signUpRequest.getPassword());
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        List<Role> roles = new ArrayList<>();
-        roles.add(new Role(Roles.ROLE_EMPLOYEE, user));
-        user.setRoles(roles);
-
-        User result = userRepository.save(user);
-
+        user.setRoles(Collections.singletonList(new Role(Roles.ROLE_EMPLOYEE, user)));
+        userRepository.save(user);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/users/{username}")
-                .buildAndExpand(result.getUsername()).toUri();
+                .buildAndExpand(user.getUsername()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+        return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully " + user));
     }
 }

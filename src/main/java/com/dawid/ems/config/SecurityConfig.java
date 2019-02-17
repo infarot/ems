@@ -86,12 +86,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/api/auth/**")
+                .antMatchers("/api/auth/signin")
                 .permitAll()
-                .antMatchers("/api/user/checkUsernameAvailability")
-                .permitAll()
-                .antMatchers(HttpMethod.GET,  "/api/users/**")
-                .permitAll()
+                .antMatchers(HttpMethod.GET,"/api/user/checkUsernameAvailability").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST,"/api/auth/signup").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();
 
