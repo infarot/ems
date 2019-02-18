@@ -20,6 +20,26 @@ public class Seamstress implements Comparable<Seamstress> {
     private String lastName;
     @OneToMany(mappedBy = "seamstress", fetch = FetchType.LAZY)
     private List<Result> results;
+    @Transient
+    private double average;
+    @Transient
+    private double score;
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public double getAverage() {
+        return average;
+    }
+
+    public void setAverage(double average) {
+        this.average = average;
+    }
 
     public Seamstress(String name, String lastName) {
         this.name = name;
