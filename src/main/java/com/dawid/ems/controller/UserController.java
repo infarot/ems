@@ -1,14 +1,13 @@
 package com.dawid.ems.controller;
 
 import com.dawid.ems.repository.UserRepository;
-import com.dawid.ems.Security.CurrentUser;
-import com.dawid.ems.Security.UserPrincipal;
+import com.dawid.ems.security.CurrentUser;
+import com.dawid.ems.security.UserPrincipal;
 import com.dawid.ems.payload.UserSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

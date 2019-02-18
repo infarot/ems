@@ -1,6 +1,6 @@
 package com.dawid.ems.controller;
 
-import com.dawid.ems.Security.JwtTokenProvider;
+import com.dawid.ems.security.JwtTokenProvider;
 import com.dawid.ems.entity.Role;
 import com.dawid.ems.entity.User;
 import com.dawid.ems.enumeration.Roles;

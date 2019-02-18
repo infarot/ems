@@ -3,6 +3,7 @@ package com.dawid.ems.controller;
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
 import com.dawid.ems.exception.SeamstressNotFoundException;
+import com.dawid.ems.response.SeamstressAverage;
 import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,7 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/results/average/{seamstressId}")
-    public Double getAverageResult(@PathVariable int seamstressId) {
+    public SeamstressAverage getAverageResult(@PathVariable int seamstressId) {
         List<Result> results = seamstressService.getAllResults(seamstressId);
         //get all results from one day
         Map<LocalDate, List<Result>> map = results.stream().collect(
@@ -62,9 +63,9 @@ public class SeamstressController {
         //calculate average and ignore results which are less then 50 %
         OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 50).mapToDouble(a -> a).average();
         if (average.isPresent()) {
-            return average.getAsDouble();
+            return new SeamstressAverage(average.getAsDouble());
         } else {
-            return 0.0;
+            return new SeamstressAverage(0.0);
         }
     }
 

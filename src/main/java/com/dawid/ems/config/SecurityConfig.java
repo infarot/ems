@@ -1,7 +1,7 @@
 package com.dawid.ems.config;
-import com.dawid.ems.Security.CustomUserDetailsService;
-import com.dawid.ems.Security.JwtAuthenticationEntryPoint;
-import com.dawid.ems.Security.JwtAuthenticationFilter;
+import com.dawid.ems.security.CustomUserDetailsService;
+import com.dawid.ems.security.JwtAuthenticationEntryPoint;
+import com.dawid.ems.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,9 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/api/auth/signin")
                 .permitAll()
-                .antMatchers("/api/seamstress")
+                .antMatchers(HttpMethod.GET,"/api/user/checkUsernameAvailability")
                 .permitAll()
-                .antMatchers(HttpMethod.GET,"/api/user/checkUsernameAvailability").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST,"/api/auth/signup").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated();

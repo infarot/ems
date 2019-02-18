@@ -1,4 +1,4 @@
-package com.dawid.ems.Security;
+package com.dawid.ems.security;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

@@ -1,4 +1,4 @@
-package com.dawid.ems.Security;
+package com.dawid.ems.security;
 
 import com.dawid.ems.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
