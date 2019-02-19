@@ -21,23 +21,23 @@ public class Seamstress implements Comparable<Seamstress> {
     @OneToMany(mappedBy = "seamstress", fetch = FetchType.LAZY)
     private List<Result> results;
     @Transient
-    private double average;
+    private Double average;
     @Transient
-    private double score;
+    private Double score;
 
-    public double getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(double score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
-    public double getAverage() {
+    public Double getAverage() {
         return average;
     }
 
-    public void setAverage(double average) {
+    public void setAverage(Double average) {
         this.average = average;
     }
 
