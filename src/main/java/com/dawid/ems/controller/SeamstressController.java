@@ -7,13 +7,12 @@ import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class SeamstressController {
+
 
     private SeamstressService seamstressService;
 
@@ -29,7 +28,7 @@ public class SeamstressController {
     }
 
 
-    @GetMapping("/seamstress/results/{seamstressId}")
+    @GetMapping("/seamstress/allResults/{seamstressId}")
     public List<Result> getAllResults(@PathVariable int seamstressId) {
         Seamstress seamstress = seamstressService.getSingle(seamstressId);
         if (seamstress == null) {
@@ -47,6 +46,12 @@ public class SeamstressController {
 
         return seamstressService.getSingle(seamstressId);
     }
+
+    @GetMapping("/seamstress/dailyResults/{seamstressId}")
+    public List<Result> getDailyResults(@PathVariable int seamstressId){
+        return seamstressService.getDailyResults(seamstressId);
+    }
+
 
 
 }

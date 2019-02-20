@@ -8,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.Console;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalDouble;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,6 +41,7 @@ public class SeamstressServiceImpl implements SeamstressService {
         return Precision.round(seamstressDAO.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
+
     @Autowired
     public SeamstressServiceImpl(SeamstressDAO seamstressDAO) {
         this.seamstressDAO = seamstressDAO;
@@ -72,4 +71,32 @@ public class SeamstressServiceImpl implements SeamstressService {
     public List<Result> getAllResults(int id) {
         return seamstressDAO.getAllResults(id);
     }
+
+    @Override
+    @Transactional
+    public List<Result> getDailyResults(int id) {
+        List<Result> results = seamstressDAO.getAllResults(id);
+        Map<LocalDate, List<Result>> resultMap = results.stream().collect(
+                Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
+        List<Result> resultsList = new ArrayList<>();
+        for (LocalDate date : resultMap.keySet()) {
+            List<Result> tempResults = resultMap.get(date);
+            Result result = new Result();
+            for (Result r : tempResults) {
+                result.setDate(r.getDate());
+                result.addPercentageResult(r.getPercentageResult());
+                result.setSeamstress(r.getSeamstress());
+                if (result.getId() != null)
+                    result.concatenateId(r.getId());
+                else {
+                    result.setId(r.getId());
+                }
+                result.setShift('B');
+            }
+            resultsList.add(result);
+        }
+        Collections.sort(resultsList);
+        return resultsList;
+    }
+
 }

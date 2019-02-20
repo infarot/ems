@@ -9,4 +9,5 @@ public interface SeamstressService {
     List<Seamstress> getAll();
     Seamstress getSingle(int id);
     List<Result> getAllResults(int id);
+    List<Result> getDailyResults(int id);
 }

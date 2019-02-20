@@ -102,4 +102,12 @@ public class Seamstress implements Comparable<Seamstress> {
     public int compareTo(Seamstress o) {
         return getLastName().compareTo(o.getLastName());
     }
+
+    @Override
+    public String toString() {
+        return "Seamstress{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
