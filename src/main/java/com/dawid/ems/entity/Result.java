@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "seamstress_result")
-public class Result {
+public class Result implements Comparable<Result> {
 
     @Id
     @Column(name = "id")
@@ -19,10 +19,18 @@ public class Result {
     @Column(name = "shift")
     private char shift;
     @ManyToOne
-    @JoinColumn(name="seamstress_id")
+    @JoinColumn(name = "seamstress_id")
     private Seamstress seamstress;
 
     public Result() {
+    }
+
+    public void concatenateId(String s) {
+        id += s;
+    }
+
+    public void addPercentageResult(double value) {
+        this.percentageResult += value;
     }
 
     public String getId() {
@@ -33,7 +41,7 @@ public class Result {
         this.id = id;
     }
 
-    public  LocalDate getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -64,5 +72,22 @@ public class Result {
 
     public void setSeamstress(Seamstress seamstress) {
         this.seamstress = seamstress;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "id='" + id + '\'' +
+                ", date=" + date +
+                ", percentageResult=" + percentageResult +
+                ", shift=" + shift +
+                ", seamstress=" + seamstress +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Result o) {
+        return o.getDate().compareTo(this.getDate());
     }
 }

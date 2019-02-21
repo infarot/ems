@@ -46,7 +46,6 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
