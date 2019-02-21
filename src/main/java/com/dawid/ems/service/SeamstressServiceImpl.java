@@ -86,12 +86,15 @@ public class SeamstressServiceImpl implements SeamstressService {
                 result.setDate(r.getDate());
                 result.addPercentageResult(r.getPercentageResult());
                 result.setSeamstress(r.getSeamstress());
-                if (result.getId() != null)
+                if (result.getId() != null) {
                     result.concatenateId(r.getId());
+                    result.setShift('B');
+                }
                 else {
                     result.setId(r.getId());
+                    result.setShift(r.getShift());
                 }
-                result.setShift('B');
+
             }
             resultsList.add(result);
         }
