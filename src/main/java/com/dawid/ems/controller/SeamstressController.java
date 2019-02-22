@@ -7,6 +7,8 @@ import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -25,6 +27,15 @@ public class SeamstressController {
     @GetMapping("/seamstress")
     public List<Seamstress> getAll() {
         return seamstressService.getAll();
+    }
+
+    @GetMapping("/seamstress/{from}/{to}")
+    public List<Seamstress> getAllFromDateInterval(@PathVariable String from, @PathVariable String to) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fromDate = LocalDate.parse(from, formatter);
+        LocalDate toDate = LocalDate.parse(to, formatter);
+        return seamstressService.getFromDateInterval(fromDate, toDate);
     }
 
 
@@ -48,10 +59,9 @@ public class SeamstressController {
     }
 
     @GetMapping("/seamstress/dailyResults/{seamstressId}")
-    public List<Result> getDailyResults(@PathVariable int seamstressId){
+    public List<Result> getDailyResults(@PathVariable int seamstressId) {
         return seamstressService.getDailyResults(seamstressId);
     }
-
 
 
 }

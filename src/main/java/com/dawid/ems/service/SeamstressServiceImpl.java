@@ -20,7 +20,14 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     private double getAverageResult(int seamstressId) {
         List<Result> results = seamstressDAO.getAllResults(seamstressId);
-        //get all results from one day
+        return calculateAverage(results);
+    }
+
+    private double getScore(int seamstressId) {
+        return Precision.round(seamstressDAO.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
+    }
+
+    private Double calculateAverage(List<Result> results) {
         Map<LocalDate, List<Result>> map = results.stream().collect(
                 Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
         //sum all results from one day
@@ -37,8 +44,15 @@ public class SeamstressServiceImpl implements SeamstressService {
         }
     }
 
-    private double getScore(int seamstressId) {
-        return Precision.round(seamstressDAO.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
+    private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        List<Result> results = seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to);
+        //get all results from one day
+        return calculateAverage(results);
+
+    }
+
+    private Double getScoreFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        return Precision.round(seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
 
@@ -89,8 +103,7 @@ public class SeamstressServiceImpl implements SeamstressService {
                 if (result.getId() != null) {
                     result.concatenateId(r.getId());
                     result.setShift('B');
-                }
-                else {
+                } else {
                     result.setId(r.getId());
                     result.setShift(r.getShift());
                 }
@@ -101,5 +114,18 @@ public class SeamstressServiceImpl implements SeamstressService {
         Collections.sort(resultsList);
         return resultsList;
     }
+
+    @Override
+    @Transactional
+    public List<Seamstress> getFromDateInterval(LocalDate from, LocalDate to) {
+        List<Seamstress> seamstresses = seamstressDAO.getAll();
+        seamstresses.forEach(s -> s.setAverage(getAverageResultFromDateInterval(s.getId(), from, to)));
+        seamstresses.forEach(s -> s.setScore(getScoreFromDateInterval(s.getId(), from, to)));
+        seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));
+        return seamstresses;
+
+    }
+
+
 
 }

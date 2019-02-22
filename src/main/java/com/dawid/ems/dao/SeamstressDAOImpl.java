@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     private final EntityManager entityManager;
 
     @Autowired
-    public SeamstressDAOImpl(EntityManager entityManager){
+    public SeamstressDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -33,13 +33,23 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     @Override
     public Seamstress getSingle(int id) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(Seamstress.class,id);
+        return session.get(Seamstress.class, id);
     }
 
     @Override
     public List<Result> getAllResults(int id) {
         Session session = entityManager.unwrap(Session.class);
-        return session.get(Seamstress.class,id).getResults();
+        return session.get(Seamstress.class, id).getResults();
+    }
+
+    @Override
+    public List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        Session session = entityManager.unwrap(Session.class);
+        Query<Result> query = session.createQuery("from Result r where r.seamstress=:id and r.date between :from and :to");
+        query.setParameter("id", getSingle(seamstressId));
+        query.setParameter("from", from);
+        query.setParameter("to", to);
+        return query.getResultList();
     }
 
 }
