@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @RestController
@@ -33,9 +34,14 @@ public class SeamstressController {
     public List<Seamstress> getAllFromDateInterval(@PathVariable String from, @PathVariable String to) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fromDate = LocalDate.parse(from, formatter);
-        LocalDate toDate = LocalDate.parse(to, formatter);
-        return seamstressService.getFromDateInterval(fromDate, toDate);
+        try {
+            LocalDate fromDate = LocalDate.parse(from, formatter);
+            LocalDate toDate = LocalDate.parse(to, formatter);
+            return seamstressService.getFromDateInterval(fromDate, toDate);
+        } catch (DateTimeParseException e) {
+            e.getParsedString();
+            throw e;
+        }
     }
 
 

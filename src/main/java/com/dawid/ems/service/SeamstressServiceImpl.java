@@ -46,9 +46,7 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
         List<Result> results = seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to);
-        //get all results from one day
         return calculateAverage(results);
-
     }
 
     private Double getScoreFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
