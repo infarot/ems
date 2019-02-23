@@ -65,7 +65,6 @@ public class Result implements Comparable<Result> {
         this.shift = shift;
     }
 
-    @JsonIgnore
     public Seamstress getSeamstress() {
         return seamstress;
     }
