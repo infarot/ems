@@ -1,6 +1,7 @@
 package com.dawid.ems.dao;
 
 import com.dawid.ems.entity.ShiftProduction;
+import com.dawid.ems.payload.AveragePerAllFromMonth;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +26,5 @@ public class ShiftProductionDAOImpl implements ShiftProductionDAO {
         Query<ShiftProduction> query = session.createQuery("from ShiftProduction", ShiftProduction.class);
         return query.getResultList();
     }
+
 }
