@@ -1,7 +1,7 @@
 package com.dawid.ems.controller;
 
 import com.dawid.ems.entity.ShiftProduction;
-import com.dawid.ems.payload.AveragePerAllFromMonth;
+import com.dawid.ems.payload.StatisticsFromMonth;
 import com.dawid.ems.service.ShiftProductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +27,8 @@ public class ShiftProductionController {
         return shiftProductionService.getAll();
     }
 
-    @GetMapping("/shiftProduction/averagePerAll/{month}")
-    public AveragePerAllFromMonth getAveragePerAllFromMonth(@PathVariable int month){
-        return shiftProductionService.getAveragePerAllFromMonth(month);
+    @GetMapping("/shiftProduction/monthStatistics/{month}")
+    public StatisticsFromMonth getAveragePerAllFromMonth(@PathVariable int month){
+        return shiftProductionService.getStatisticsFromMonth(month);
     }
 }

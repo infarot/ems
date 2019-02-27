@@ -2,7 +2,7 @@ package com.dawid.ems.service;
 
 import com.dawid.ems.dao.ShiftProductionDAO;
 import com.dawid.ems.entity.ShiftProduction;
-import com.dawid.ems.payload.AveragePerAllFromMonth;
+import com.dawid.ems.payload.StatisticsFromMonth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +29,13 @@ public class ShiftProductionServiceImpl implements ShiftProductionService {
     }
 
     @Override
-    public AveragePerAllFromMonth getAveragePerAllFromMonth(int month) {
-        AveragePerAllFromMonth average = new AveragePerAllFromMonth();
-        average.setMonth(month);
-        OptionalDouble optionalAverage = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getPerSeamstress).average();
-        optionalAverage.ifPresent(average::setAverage);
-        return average;
+    public StatisticsFromMonth getStatisticsFromMonth(int month) {
+        StatisticsFromMonth statistics = new StatisticsFromMonth();
+        statistics.setMonth(month);
+        OptionalDouble optionalAveragePerAll = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getPerSeamstress).average();
+        optionalAveragePerAll.ifPresent(statistics::setAveragePerAll);
+        OptionalDouble optionalAverageResult = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getResult).average();
+        optionalAverageResult.ifPresent(statistics::setAverageResult);
+        return statistics;
     }
 }
