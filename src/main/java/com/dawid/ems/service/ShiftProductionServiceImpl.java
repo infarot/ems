@@ -32,11 +32,12 @@ public class ShiftProductionServiceImpl implements ShiftProductionService {
     public StatisticsFromMonth getStatisticsFromMonth(int month) {
         StatisticsFromMonth statistics = new StatisticsFromMonth();
         statistics.setMonth(month);
-        OptionalDouble optionalAveragePerAll = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getPerSeamstress).average();
+        List<ShiftProduction> list = getAll();
+        OptionalDouble optionalAveragePerAll = list.stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getPerSeamstress).average();
         optionalAveragePerAll.ifPresent(statistics::setAveragePerAll);
-        OptionalDouble optionalAverageResult = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getResult).average();
+        OptionalDouble optionalAverageResult = list.stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getResult).average();
         optionalAverageResult.ifPresent(statistics::setAverageResult);
-        OptionalDouble optionalAverageWorkOrganization = getAll().stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getWorkOrganization).average();
+        OptionalDouble optionalAverageWorkOrganization = list.stream().filter(s -> s.getDate().getMonth().getValue() == month).mapToDouble(ShiftProduction::getWorkOrganization).average();
         optionalAverageWorkOrganization.ifPresent(statistics::setAverageWorkOrganization);
         return statistics;
     }
