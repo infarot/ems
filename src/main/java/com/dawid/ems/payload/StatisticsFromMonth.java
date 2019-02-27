@@ -3,9 +3,18 @@ package com.dawid.ems.payload;
 public class StatisticsFromMonth {
     private Double averagePerAll;
     private Double averageResult;
+    private Double averageWorkOrganization;
     private int month;
 
     public StatisticsFromMonth() {
+    }
+
+    public Double getAverageWorkOrganization() {
+        return averageWorkOrganization;
+    }
+
+    public void setAverageWorkOrganization(Double averageWorkOrganization) {
+        this.averageWorkOrganization = averageWorkOrganization;
     }
 
     public Double getAveragePerAll() {
