@@ -2,6 +2,7 @@ package com.dawid.ems.controller;
 
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
+import com.dawid.ems.exception.ResourceNotFoundException;
 import com.dawid.ems.exception.SeamstressNotFoundException;
 import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class SeamstressController {
 
     @GetMapping("/seamstress/{from}/{to}")
     public List<Seamstress> getAllFromDateInterval(@PathVariable String from, @PathVariable String to) {
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         try {
             LocalDate fromDate = LocalDate.parse(from, formatter);
@@ -47,20 +47,11 @@ public class SeamstressController {
 
     @GetMapping("/seamstress/allResults/{seamstressId}")
     public List<Result> getAllResults(@PathVariable int seamstressId) {
-        Seamstress seamstress = seamstressService.getSingle(seamstressId);
-        if (seamstress == null) {
-            throw new SeamstressNotFoundException("Seamstress with id " + seamstressId + " not found");
-        }
-        return seamstressService.getAllResults(seamstressId);
+        return seamstressService.getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
     }
 
     @GetMapping("/seamstress/{seamstressId}")
     public Seamstress getSingle(@PathVariable int seamstressId) {
-        Seamstress seamstress = seamstressService.getSingle(seamstressId);
-        if (seamstress == null) {
-            throw new SeamstressNotFoundException("Seamstress with id " + seamstressId + " not found");
-        }
-
         return seamstressService.getSingle(seamstressId);
     }
 

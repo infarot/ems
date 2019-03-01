@@ -3,12 +3,13 @@ package com.dawid.ems.service;
 import com.dawid.ems.dao.SeamstressDAO;
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
+import com.dawid.ems.exception.ResourceNotFoundException;
+import com.dawid.ems.exception.SeamstressNotFoundException;
 import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.io.Console;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,13 +19,19 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     private final SeamstressDAO seamstressDAO;
 
+    @Autowired
+    public SeamstressServiceImpl(SeamstressDAO seamstressDAO) {
+        this.seamstressDAO = seamstressDAO;
+    }
+
     private double getAverageResult(int seamstressId) {
-        List<Result> results = seamstressDAO.getAllResults(seamstressId);
+        List<Result> results = getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
         return calculateAverage(results);
     }
 
     private double getScore(int seamstressId) {
-        return Precision.round(seamstressDAO.getAllResults(seamstressId).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
+        List<Result> results = getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
+        return Precision.round(results.stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
     private Double calculateAverage(List<Result> results) {
@@ -45,49 +52,17 @@ public class SeamstressServiceImpl implements SeamstressService {
     }
 
     private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
-        List<Result> results = seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to);
+        List<Result> results = getAllResultsFromDateInterval(seamstressId, from, to);
         return calculateAverage(results);
     }
 
     private Double getScoreFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
-        return Precision.round(seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
-    }
-
-
-    @Autowired
-    public SeamstressServiceImpl(SeamstressDAO seamstressDAO) {
-        this.seamstressDAO = seamstressDAO;
+        return Precision.round(getAllResultsFromDateInterval(seamstressId, from, to).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
     @Override
-    @Transactional
-    public List<Seamstress> getAll() {
-        List<Seamstress> seamstresses = seamstressDAO.getAll();
-        seamstresses.forEach(s -> s.setAverage(getAverageResult(s.getId())));
-        seamstresses.forEach(s -> s.setScore(getScore(s.getId())));
-        seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));
-        return seamstresses;
-    }
-
-    @Override
-    @Transactional
-    public Seamstress getSingle(int id) {
-        Seamstress seamstress = seamstressDAO.getSingle(id);
-        seamstress.setAverage(getAverageResult(id));
-        seamstress.setScore(getScore(id));
-        return seamstress;
-    }
-
-    @Override
-    @Transactional
-    public List<Result> getAllResults(int id) {
-        return seamstressDAO.getAllResults(id);
-    }
-
-    @Override
-    @Transactional
     public List<Result> getDailyResults(int id) {
-        List<Result> results = seamstressDAO.getAllResults(id);
+        List<Result> results = getAllResults(id).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", id));
         Map<LocalDate, List<Result>> resultMap = results.stream().collect(
                 Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
         List<Result> resultsList = new ArrayList<>();
@@ -114,9 +89,8 @@ public class SeamstressServiceImpl implements SeamstressService {
     }
 
     @Override
-    @Transactional
     public List<Seamstress> getFromDateInterval(LocalDate from, LocalDate to) {
-        List<Seamstress> seamstresses = seamstressDAO.getAll();
+        List<Seamstress> seamstresses = getAll();
         seamstresses.forEach(s -> s.setAverage(getAverageResultFromDateInterval(s.getId(), from, to)));
         seamstresses.forEach(s -> s.setScore(getScoreFromDateInterval(s.getId(), from, to)));
         seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));
@@ -124,6 +98,37 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     }
 
+    @Override
+    @Transactional
+    public Optional<List<Result>> getAllResults(int id) {
+        Seamstress seamstress = seamstressDAO.getSingle(id).orElseThrow(() -> new SeamstressNotFoundException("Seamstress with id " + id + " not found"));
+        return Optional.ofNullable(seamstress.getResults());
+    }
+
+    @Override
+    @Transactional
+    public List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        return seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result " + from + to, seamstressId));
+    }
+
+    @Override
+    @Transactional
+    public List<Seamstress> getAll() {
+        List<Seamstress> seamstresses = seamstressDAO.getAll().orElseThrow(() -> new ResourceNotFoundException("Seamstress list", "seamstress", "all"));
+        seamstresses.forEach(s -> s.setAverage(getAverageResult(s.getId())));
+        seamstresses.forEach(s -> s.setScore(getScore(s.getId())));
+        seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));
+        return seamstresses;
+    }
+
+    @Override
+    @Transactional
+    public Seamstress getSingle(int id) {
+        Seamstress seamstress = seamstressDAO.getSingle(id).orElseThrow(() -> new SeamstressNotFoundException("Seamstress with id " + id + " not found"));
+        seamstress.setAverage(getAverageResult(id));
+        seamstress.setScore(getScore(id));
+        return seamstress;
+    }
 
 
 }

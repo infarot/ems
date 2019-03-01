@@ -5,13 +5,12 @@ import com.dawid.ems.entity.Seamstress;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface SeamstressDAO {
-    List<Seamstress> getAll();
+    Optional<List<Seamstress>> getAll();
 
-    Seamstress getSingle(int id);
+    Optional<Seamstress> getSingle(int id);
 
-    List<Result> getAllResults(int id);
-
-    List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
+    Optional<List<Result>> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
 }

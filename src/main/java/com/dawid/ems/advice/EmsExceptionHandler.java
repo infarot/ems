@@ -1,6 +1,7 @@
 package com.dawid.ems.advice;
 
 import com.dawid.ems.exception.EmsErrorResponse;
+import com.dawid.ems.exception.ResourceNotFoundException;
 import com.dawid.ems.exception.SeamstressNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,16 @@ public class EmsExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<EmsErrorResponse> handleException(ResourceNotFoundException exc){
+        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.UNAUTHORIZED.value(),exc.getMessage(),System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<EmsErrorResponse> handleException(Exception exc){
         EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.BAD_REQUEST.value(),"Invalid request - please check data type",System.currentTimeMillis());
         return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
     }
+
 
 }

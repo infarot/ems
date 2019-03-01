@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ShiftProductionDAOImpl implements ShiftProductionDAO {
@@ -20,10 +21,10 @@ public class ShiftProductionDAOImpl implements ShiftProductionDAO {
     }
 
     @Override
-    public List<ShiftProduction> getAll() {
+    public Optional<List<ShiftProduction>> getAll() {
         Session session = entityManager.unwrap(Session.class);
         Query<ShiftProduction> query = session.createQuery("from ShiftProduction", ShiftProduction.class);
-        return query.getResultList();
+        return Optional.of(query.getResultList());
     }
 
 }

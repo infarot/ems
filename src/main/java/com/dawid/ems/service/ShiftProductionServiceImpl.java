@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
@@ -22,15 +24,6 @@ public class ShiftProductionServiceImpl implements ShiftProductionService {
     }
 
     @Override
-    @Transactional
-    public List<ShiftProduction> getAll() {
-
-        return shiftProductionDAO.getAll().stream().sorted().collect(Collectors.toList());
-    }
-
-
-
-    @Override
     public StatisticsFromMonth getStatisticsFromMonth(int month, int year) {
         StatisticsFromMonth statistics = new StatisticsFromMonth();
         statistics.setMonth(month);
@@ -43,4 +36,15 @@ public class ShiftProductionServiceImpl implements ShiftProductionService {
         optionalAverageWorkOrganization.ifPresent(statistics::setAverageWorkOrganization);
         return statistics;
     }
+
+    @Override
+    @Transactional
+    public List<ShiftProduction> getAll() {
+        Optional<List<ShiftProduction>> o = shiftProductionDAO.getAll();
+        return o.orElse(new ArrayList<>());
+    }
+
+
+
+
 }
