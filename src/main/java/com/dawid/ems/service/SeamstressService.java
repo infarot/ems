@@ -16,5 +16,4 @@ public interface SeamstressService {
     List<Result> getDailyResults(int id);
 
     List<Seamstress> getFromDateInterval(LocalDate from, LocalDate to);
-
 }

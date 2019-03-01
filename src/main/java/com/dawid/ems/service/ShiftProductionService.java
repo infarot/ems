@@ -9,6 +9,6 @@ public interface ShiftProductionService {
 
     List<ShiftProduction> getAll();
 
-    StatisticsFromMonth getStatisticsFromMonth(int month);
+    StatisticsFromMonth getStatisticsFromMonth(int month, int year);
 
 }

@@ -27,8 +27,8 @@ public class ShiftProductionController {
         return shiftProductionService.getAll();
     }
 
-    @GetMapping("/shiftProduction/monthStatistics/{month}")
-    public StatisticsFromMonth getAveragePerAllFromMonth(@PathVariable int month){
-        return shiftProductionService.getStatisticsFromMonth(month);
+    @GetMapping("/shiftProduction/monthStatistics/{month}/{year}")
+    public StatisticsFromMonth getAveragePerAllFromMonth(@PathVariable int month, @PathVariable int year){
+        return shiftProductionService.getStatisticsFromMonth(month, year);
     }
 }
