@@ -12,7 +12,7 @@ public interface SeamstressService {
 
     Seamstress getSingle(int id);
 
-    Optional<List<Result>> getAllResults(int id);
+    List<Result> getAllResults(int id);
 
     List<Result> getDailyResults(int id);
 

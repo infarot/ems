@@ -2,7 +2,6 @@ package com.dawid.ems.dao;
 
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
-import com.dawid.ems.exception.SeamstressNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;

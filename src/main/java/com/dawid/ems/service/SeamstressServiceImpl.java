@@ -25,12 +25,12 @@ public class SeamstressServiceImpl implements SeamstressService {
     }
 
     private double getAverageResult(int seamstressId) {
-        List<Result> results = getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
+        List<Result> results = getAllResults(seamstressId);
         return calculateAverage(results);
     }
 
     private double getScore(int seamstressId) {
-        List<Result> results = getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
+        List<Result> results = getAllResults(seamstressId);
         return Precision.round(results.stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
@@ -62,7 +62,7 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     @Override
     public List<Result> getDailyResults(int id) {
-        List<Result> results = getAllResults(id).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", id));
+        List<Result> results = getAllResults(id);
         Map<LocalDate, List<Result>> resultMap = results.stream().collect(
                 Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
         List<Result> resultsList = new ArrayList<>();
@@ -100,9 +100,9 @@ public class SeamstressServiceImpl implements SeamstressService {
 
     @Override
     @Transactional
-    public Optional<List<Result>> getAllResults(int id) {
+    public List<Result> getAllResults(int id) {
         Seamstress seamstress = seamstressDAO.getSingle(id).orElseThrow(() -> new SeamstressNotFoundException("Seamstress with id " + id + " not found"));
-        return Optional.ofNullable(seamstress.getResults());
+        return seamstress.getResults();
     }
 
     @Override

@@ -41,9 +41,15 @@ public class Seamstress implements Comparable<Seamstress> {
         this.average = average;
     }
 
-    public Seamstress(String name, String lastName) {
+    public Seamstress(int id, String name, String lastName, Double average, Double score) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
+        this.average = average;
+        this.score = score;
+    }
+
+    public Seamstress() {
     }
 
     @JsonIgnore
@@ -55,8 +61,6 @@ public class Seamstress implements Comparable<Seamstress> {
         this.results = results;
     }
 
-    public Seamstress() {
-    }
 
     public int getId() {
         return id;
@@ -106,8 +110,11 @@ public class Seamstress implements Comparable<Seamstress> {
     @Override
     public String toString() {
         return "Seamstress{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", average=" + average +
+                ", score=" + score +
                 '}';
     }
 }

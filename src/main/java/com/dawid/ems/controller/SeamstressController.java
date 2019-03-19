@@ -3,7 +3,6 @@ package com.dawid.ems.controller;
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
 import com.dawid.ems.exception.ResourceNotFoundException;
-import com.dawid.ems.exception.SeamstressNotFoundException;
 import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,7 @@ public class SeamstressController {
 
     @GetMapping("/seamstress/allResults/{seamstressId}")
     public List<Result> getAllResults(@PathVariable int seamstressId) {
-        return seamstressService.getAllResults(seamstressId).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result ", seamstressId));
+        return seamstressService.getAllResults(seamstressId);
     }
 
     @GetMapping("/seamstress/{seamstressId}")

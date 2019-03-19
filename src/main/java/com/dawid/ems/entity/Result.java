@@ -1,6 +1,5 @@
 package com.dawid.ems.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,6 +22,14 @@ public class Result implements Comparable<Result> {
     private Seamstress seamstress;
 
     public Result() {
+    }
+
+    public Result(String id, LocalDate date, double percentageResult, char shift, Seamstress seamstress) {
+        this.id = id;
+        this.date = date;
+        this.percentageResult = percentageResult;
+        this.shift = shift;
+        this.seamstress = seamstress;
     }
 
     public void concatenateId(String s) {
