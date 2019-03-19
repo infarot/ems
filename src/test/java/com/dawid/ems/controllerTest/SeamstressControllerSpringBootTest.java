@@ -120,6 +120,24 @@ public class SeamstressControllerSpringBootTest {
 
     @WithMockUser("test")
     @Test
+    public void canRetrieveAllResultsWhenSeamstressDoesNotExist() throws Exception {
+
+
+        given(seamstressService.getAllResults(2))
+                .willThrow(new SeamstressNotFoundException("Seamstress not found"));
+
+
+        MockHttpServletResponse response = mvc.perform(
+                get("/api/seamstress/allResults/2").accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getContentAsString()).contains("Seamstress not found");
+    }
+
+    @WithMockUser("test")
+    @Test
     public void canRetrieveDailyResultsBySeamstressId() throws Exception {
 
         Seamstress seamstress = new Seamstress(2, "SName", "SLastName", 15.0, 14.0);
@@ -144,6 +162,24 @@ public class SeamstressControllerSpringBootTest {
 
     @WithMockUser("test")
     @Test
+    public void canRetrieveDailyResultsWhenSeamstressDoesNotExist() throws Exception {
+
+
+        given(seamstressService.getDailyResults(2))
+                .willThrow(new SeamstressNotFoundException("Seamstress not found"));
+
+
+        MockHttpServletResponse response = mvc.perform(
+                get("/api/seamstress/dailyResults/2").accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getContentAsString()).contains("Seamstress not found");
+    }
+
+    @WithMockUser("test")
+    @Test
     public void canRetrieveSeamstressDataFromDateInterval() throws Exception {
 
         Seamstress seamstress = new Seamstress(2, "SName", "SLastName", 15.0, 14.0);
@@ -161,6 +197,21 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].id", Matchers.is(2)))
                 .andExpect(jsonPath("$.[0].lastName", Matchers.is("SLastName")))
                 .andExpect(jsonPath("$.[0].name", Matchers.is("SName")));
+    }
+
+    @WithMockUser("test")
+    @Test
+    public void canRetrieveEmptySeamstressListFromDateInterval() throws Exception {
+
+
+        given(seamstressService.getFromDateInterval(LocalDate.of(2053, 3, 19), LocalDate.of(2083, 3, 19)))
+                .willReturn(Collections.emptyList());
+
+
+        mvc.perform(
+                get("/api/seamstress/2053-03-19/2083-03-19").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
     }
 
     @WithMockUser("test")

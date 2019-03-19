@@ -9,6 +9,13 @@ public class StatisticsFromMonth {
     public StatisticsFromMonth() {
     }
 
+    public StatisticsFromMonth(Double averagePerAll, Double averageResult, Double averageWorkOrganization, int month) {
+        this.averagePerAll = averagePerAll;
+        this.averageResult = averageResult;
+        this.averageWorkOrganization = averageWorkOrganization;
+        this.month = month;
+    }
+
     public Double getAverageWorkOrganization() {
         return averageWorkOrganization;
     }
