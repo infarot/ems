@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser
 public class ShiftProductionControllerSpringBootTest {
 
     @Autowired
@@ -47,7 +48,6 @@ public class ShiftProductionControllerSpringBootTest {
                 .build();
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveAllShiftProductionData() throws Exception {
 
@@ -72,7 +72,6 @@ public class ShiftProductionControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].workOrganization", Matchers.is(7.0)));
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveStatisticsFromMonth() throws Exception {
 

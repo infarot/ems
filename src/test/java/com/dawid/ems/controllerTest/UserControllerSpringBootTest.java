@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser
 public class UserControllerSpringBootTest {
 
     @Autowired
@@ -43,7 +44,6 @@ public class UserControllerSpringBootTest {
     }
 
 
-    @WithMockUser("test")
     @Test
     public void isReturningFalseIfUserExists() throws Exception {
         given(userRepository.existsByUsername("test"))
@@ -53,7 +53,6 @@ public class UserControllerSpringBootTest {
                 .andExpect(content().string("false"));
     }
 
-    @WithMockUser("test")
     @Test
     public void isReturningTrueIfUserDoestNotExists() throws Exception {
         given(userRepository.existsByUsername("test"))

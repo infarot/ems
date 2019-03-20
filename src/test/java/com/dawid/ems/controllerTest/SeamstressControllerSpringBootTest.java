@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@WithMockUser
 public class SeamstressControllerSpringBootTest {
 
     @Autowired
@@ -49,15 +50,12 @@ public class SeamstressControllerSpringBootTest {
                 .build();
     }
 
-
-    @WithMockUser("test")
     @Test
     public void givenAuthRequestOnPrivateService_shouldSucceedWith200() throws Exception {
         mvc.perform(get("/api/seamstress/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveByIdWhenExists() throws Exception {
 
@@ -76,7 +74,6 @@ public class SeamstressControllerSpringBootTest {
 
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveByIdWhenDoesNotExist() throws Exception {
 
@@ -94,7 +91,6 @@ public class SeamstressControllerSpringBootTest {
         assertThat(response.getContentAsString()).contains("Seamstress not found");
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveAllResultsBySeamstressId() throws Exception {
 
@@ -118,7 +114,6 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].seamstress.lastName", Matchers.is("SLastName")));
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveAllResultsWhenSeamstressDoesNotExist() throws Exception {
 
@@ -136,7 +131,6 @@ public class SeamstressControllerSpringBootTest {
         assertThat(response.getContentAsString()).contains("Seamstress not found");
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveDailyResultsBySeamstressId() throws Exception {
 
@@ -160,7 +154,6 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].seamstress.lastName", Matchers.is("SLastName")));
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveDailyResultsWhenSeamstressDoesNotExist() throws Exception {
 
@@ -178,7 +171,6 @@ public class SeamstressControllerSpringBootTest {
         assertThat(response.getContentAsString()).contains("Seamstress not found");
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveSeamstressDataFromDateInterval() throws Exception {
 
@@ -199,7 +191,6 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].name", Matchers.is("SName")));
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveEmptySeamstressListFromDateInterval() throws Exception {
 
@@ -214,7 +205,6 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
     }
 
-    @WithMockUser("test")
     @Test
     public void canRetrieveAllSeamstressData() throws Exception {
 
