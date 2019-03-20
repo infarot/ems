@@ -1,7 +1,6 @@
 package com.dawid.ems.controllerTest;
 
 
-import com.dawid.ems.entity.Seamstress;
 import com.dawid.ems.entity.ShiftProduction;
 import com.dawid.ems.payload.StatisticsFromMonth;
 import com.dawid.ems.service.ShiftProductionService;
