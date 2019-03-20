@@ -49,6 +49,11 @@ public class Seamstress implements Comparable<Seamstress> {
         this.score = score;
     }
 
+    public Seamstress(int id, String name, String lastName) {
+        this.name = name;
+        this.lastName = lastName;
+    }
+
     public Seamstress() {
     }
 
@@ -93,8 +98,7 @@ public class Seamstress implements Comparable<Seamstress> {
         Seamstress that = (Seamstress) o;
         return getId() == that.getId() &&
                 getName().equals(that.getName()) &&
-                getLastName().equals(that.getLastName()) &&
-                Objects.equals(getResults(), that.getResults());
+                getLastName().equals(that.getLastName());
     }
 
     @Override
