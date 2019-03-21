@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SeamstressDAO {
-    Optional<List<Seamstress>> getAll();
+    List<Seamstress> getAll();
 
     Optional<Seamstress> getSingle(int id);
 
-    Optional<List<Result>> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
+    List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
 }

@@ -91,9 +91,11 @@ public class SeamstressServiceImpl implements SeamstressService {
     @Override
     public List<Seamstress> getFromDateInterval(LocalDate from, LocalDate to) {
         List<Seamstress> seamstresses = getAll();
+
         seamstresses.forEach(s -> s.setAverage(getAverageResultFromDateInterval(s.getId(), from, to)));
         seamstresses.forEach(s -> s.setScore(getScoreFromDateInterval(s.getId(), from, to)));
         seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));
+
         return seamstresses;
 
     }
@@ -108,13 +110,13 @@ public class SeamstressServiceImpl implements SeamstressService {
     @Override
     @Transactional
     public List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
-        return seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to).orElseThrow(() -> new ResourceNotFoundException("Seamstress results", "result " + from + to, seamstressId));
+        return seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to);
     }
 
     @Override
     @Transactional
     public List<Seamstress> getAll() {
-        List<Seamstress> seamstresses = seamstressDAO.getAll().orElseThrow(() -> new ResourceNotFoundException("Seamstress list", "seamstress", "all"));
+        List<Seamstress> seamstresses = seamstressDAO.getAll();
         seamstresses.forEach(s -> s.setAverage(getAverageResult(s.getId())));
         seamstresses.forEach(s -> s.setScore(getScore(s.getId())));
         seamstresses.sort((a, b) -> b.getAverage().compareTo(a.getAverage()));

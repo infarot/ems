@@ -2,6 +2,7 @@ package com.dawid.ems.dao;
 
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
+import com.dawid.ems.exception.SeamstressNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,10 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     }
 
     @Override
-    public Optional<List<Seamstress>> getAll() {
+    public List<Seamstress> getAll() {
         Session session = entityManager.unwrap(Session.class);
         Query<Seamstress> query = session.createQuery("from Seamstress", Seamstress.class);
-        return Optional.ofNullable(query.getResultList());
+        return query.getResultList();
     }
 
     @Override
@@ -38,13 +39,14 @@ public class SeamstressDAOImpl implements SeamstressDAO {
 
 
     @Override
-    public Optional<List<Result>> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+    public List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
         Session session = entityManager.unwrap(Session.class);
         Query<Result> query = session.createQuery("from Result r where r.seamstress=:id and r.date between :from and :to");
-        query.setParameter("id", getSingle(seamstressId));
+        Seamstress seamstress = getSingle(seamstressId).orElseThrow(() -> new SeamstressNotFoundException("Seamstress with id: " + seamstressId + "not found"));
+        query.setParameter("id", seamstress);
         query.setParameter("from", from);
         query.setParameter("to", to);
-        return Optional.ofNullable(query.getResultList());
+        return query.getResultList();
     }
 
 }
