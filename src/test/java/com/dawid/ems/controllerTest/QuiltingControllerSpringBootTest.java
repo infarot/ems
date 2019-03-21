@@ -3,6 +3,7 @@ package com.dawid.ems.controllerTest;
 import com.dawid.ems.entity.ProductionWorker;
 import com.dawid.ems.entity.QuiltedIndex;
 import com.dawid.ems.entity.QuiltingData;
+import com.dawid.ems.payload.QuilterStatistics;
 import com.dawid.ems.service.QuiltingService;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -58,14 +59,16 @@ public class QuiltingControllerSpringBootTest {
         quiltingData.setOperator(productionWorker);
         quiltingData.setDate(LocalDate.of(2019, 3, 15));
         quiltingData.setId(1);
+        quiltingData.setQuilterStatistics(new QuilterStatistics(202.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
         quiltingData.setQuiltedIndices(Collections.singletonList(
-                new QuiltedIndex("item_name", 200, 2, productionWorker, quiltingData, 1)));
+                new QuiltedIndex("MALFORS_80", 200, 2, productionWorker, quiltingData, 1)));
 
         Mockito.when(quiltingService.getAll()).thenReturn(Collections.singletonList(quiltingData));
 
         mvc.perform(MockMvcRequestBuilders.get("/api/quilting").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id", Matchers.is(1)))
-                .andExpect(jsonPath("$.[0].operator.name", Matchers.is("test")));
+                .andExpect(jsonPath("$.[0].operator.name", Matchers.is("test")))
+                .andExpect(jsonPath("$.[0].quilterStatistics.lmtQ1", Matchers.is(202.0)));
     }
 }

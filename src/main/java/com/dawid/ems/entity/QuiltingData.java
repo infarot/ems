@@ -1,5 +1,7 @@
 package com.dawid.ems.entity;
 
+import com.dawid.ems.payload.QuilterStatistics;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +20,17 @@ public class QuiltingData {
     private ProductionWorker operator;
     @OneToMany(mappedBy = "quiltingData", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QuiltedIndex> quiltedIndices;
+    //transient fields
+    @Transient
+    private QuilterStatistics quilterStatistics;
+
+    public QuilterStatistics getQuilterStatistics() {
+        return quilterStatistics;
+    }
+
+    public void setQuilterStatistics(QuilterStatistics quilterStatistics) {
+        this.quilterStatistics = quilterStatistics;
+    }
 
     public int getId() {
         return id;
