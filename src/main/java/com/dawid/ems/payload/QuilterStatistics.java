@@ -15,11 +15,11 @@ public class QuilterStatistics {
         this.lmtQ1 = lmtQ1;
         this.lmtQ2 = lmtQ2;
         this.lmtQ3 = lmtQ3;
-        this.lossQ1 = lossQ1;
-        this.lossQ2 = lossQ2;
-        this.lossQ3 = lossQ3;
+        this.lossQ1 = lossQ1 + 0.01;
+        this.lossQ2 = lossQ2 + 0.01;
+        this.lossQ3 = lossQ3 + 0.01;
         this.totalLmt = totalLmt;
-        this.totalLoss = totalLoss;
+        this.totalLoss = totalLoss + 0.01;
     }
 
     public QuilterStatistics() {
