@@ -1,6 +1,7 @@
 package com.dawid.ems.entity;
 
 import com.dawid.ems.payload.QuilterStatistics;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class QuiltingData {
     private LocalDate date;
     @ManyToOne
     @JoinColumn(name = "operator_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private ProductionWorker operator;
     @OneToMany(mappedBy = "quiltingData", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<QuiltedIndex> quiltedIndices;

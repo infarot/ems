@@ -13,26 +13,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class EmsExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<EmsErrorResponse> handleException(SeamstressNotFoundException exc){
-        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.NOT_FOUND.value(),exc.getMessage(),System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
-    }
-    @ExceptionHandler
-    public ResponseEntity<EmsErrorResponse> handleException(BadCredentialsException exc){
-        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.UNAUTHORIZED.value(),exc.getMessage(),System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<EmsErrorResponse> handleException(SeamstressNotFoundException exc) {
+        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.NOT_FOUND.value(), exc.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler
-    public ResponseEntity<EmsErrorResponse> handleException(ResourceNotFoundException exc){
-        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.UNAUTHORIZED.value(),exc.getMessage(),System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse,HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<EmsErrorResponse> handleException(BadCredentialsException exc) {
+        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.UNAUTHORIZED.value(), exc.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler
-    public ResponseEntity<EmsErrorResponse> handleException(Exception exc){
-        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.BAD_REQUEST.value(),"Invalid request - please check data type",System.currentTimeMillis());
-        return new ResponseEntity<>(errorResponse,HttpStatus.NOT_FOUND);
+    public ResponseEntity<EmsErrorResponse> handleException(ResourceNotFoundException exc) {
+        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.UNAUTHORIZED.value(), exc.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<EmsErrorResponse> handleException(Exception exc) {
+        EmsErrorResponse errorResponse = new EmsErrorResponse(HttpStatus.BAD_REQUEST.value(), exc.getMessage(), System.currentTimeMillis());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
 

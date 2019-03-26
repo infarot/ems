@@ -71,4 +71,23 @@ public class QuiltingControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].operator.name", Matchers.is("test")))
                 .andExpect(jsonPath("$.[0].quilterStatistics.lmtQ1", Matchers.is(202.0)));
     }
+
+    @Test
+    public void canGetQuiltingDataByDateIntervalAndOperator() throws Exception {
+        QuiltingData quiltingData = new QuiltingData();
+        quiltingData.setOperator(productionWorker);
+        quiltingData.setDate(LocalDate.of(2019, 3, 15));
+        quiltingData.setId(1);
+        quiltingData.setQuilterStatistics(new QuilterStatistics(202.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0));
+        quiltingData.setQuiltedIndices(Collections.singletonList(
+                new QuiltedIndex("MALFORS_80", 200, 2, productionWorker, quiltingData, 1)));
+
+        Mockito.when(quiltingService.getAllByDateBetweenAndOperator(LocalDate.of(2019,3,22),LocalDate.of(2019,3,22), productionWorker)).thenReturn(Collections.singletonList(quiltingData));
+
+        mvc.perform(MockMvcRequestBuilders.get("/api/quilting/2019-03-22/2019-03-22/53").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id", Matchers.is(1)))
+                .andExpect(jsonPath("$.[0].operator.name", Matchers.is("test")))
+                .andExpect(jsonPath("$.[0].quilterStatistics.lmtQ1", Matchers.is(202.0)));
+    }
 }
