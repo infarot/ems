@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "production_worker")
@@ -73,6 +74,21 @@ public class ProductionWorker {
 
     public void setQuiltingData(List<QuiltingData> quiltingData) {
         this.quiltingData = quiltingData;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductionWorker)) return false;
+        ProductionWorker that = (ProductionWorker) o;
+        return id == that.id &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(lastName, that.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, lastName);
     }
 
     @Override

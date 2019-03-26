@@ -2,7 +2,7 @@ package com.dawid.ems.controller;
 
 import com.dawid.ems.entity.ProductionWorker;
 import com.dawid.ems.entity.QuiltingData;
-import com.dawid.ems.exception.ResourceNotFoundException;
+import com.dawid.ems.payload.QuiltingStatisticsFromMonth;
 import com.dawid.ems.service.QuiltingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,5 +35,15 @@ public class QuiltingController {
         LocalDate parsedTo = LocalDate.parse(to);
         ProductionWorker operator = quiltingService.getProductionWorker(id);
         return quiltingService.getAllByDateBetweenAndOperator(parsedFrom, parsedTo, operator);
+    }
+
+    @GetMapping("/quilting/statistics/{month}/{year}")
+    public QuiltingStatisticsFromMonth getQuiltingStatisticsFromMonth(@PathVariable("month") int month, @PathVariable("year") int year) {
+        return quiltingService.getQuiltingStatisticsFromMonth(month, year);
+    }
+
+    @GetMapping("/quilting/statistics/{month}/{year}/{id}")
+    public QuiltingStatisticsFromMonth getQuiltingStatisticsFromMonthByOperator(@PathVariable("month") int month, @PathVariable("year") int year, @PathVariable("id") int id) {
+        return quiltingService.getQuiltingStatisticsFromMonthByOperator(month, year, id);
     }
 }

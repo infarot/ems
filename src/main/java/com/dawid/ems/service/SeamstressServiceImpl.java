@@ -110,6 +110,9 @@ public class SeamstressServiceImpl implements SeamstressService {
     @Override
     @Transactional
     public List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        if (from.isAfter(to)) {
+            throw new RuntimeException("Invalid date interval");
+        }
         return seamstressDAO.getAllResultsFromDateInterval(seamstressId, from, to);
     }
 
