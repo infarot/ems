@@ -14,9 +14,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +24,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDate;
 import java.util.Collections;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,8 +40,6 @@ public class QuiltingControllerSpringBootTest {
     @MockBean
     private QuiltingService quiltingService;
 
-    private QuiltingData quiltingData;
-
     @MockBean
     private ProductionWorker operator;
 
@@ -56,7 +51,7 @@ public class QuiltingControllerSpringBootTest {
         operator = new ProductionWorker("test", "test");
         operator.setId(53);
 
-        quiltingData = new QuiltingData();
+        QuiltingData quiltingData = new QuiltingData();
         quiltingData.setOperator(operator);
         quiltingData.setDate(LocalDate.of(2019, 3, 15));
         quiltingData.setId(1);
