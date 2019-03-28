@@ -100,7 +100,7 @@ public class QuiltingControllerSpringBootTest {
         mvc.perform(get("/api/quilting/statistics/3/2019").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.averageLmt", Matchers.is(30.0)))
-                .andExpect(jsonPath("$.averageTotalLoss", Matchers.is(4.0)))
+                .andExpect(jsonPath("$.averageTotalLoss", Matchers.is(4.01)))
                 .andExpect(jsonPath("$.month", Matchers.is(3)));
     }
 
@@ -110,7 +110,7 @@ public class QuiltingControllerSpringBootTest {
         mvc.perform(get("/api/quilting/statistics/3/2019/53").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.averageLmt", Matchers.is(30.0)))
-                .andExpect(jsonPath("$.averageTotalLoss", Matchers.is(4.0)))
+                .andExpect(jsonPath("$.averageTotalLoss", Matchers.is(4.01)))
                 .andExpect(jsonPath("$.month", Matchers.is(3)));
 
     }

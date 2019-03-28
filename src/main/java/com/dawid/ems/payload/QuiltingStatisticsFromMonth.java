@@ -7,7 +7,7 @@ public class QuiltingStatisticsFromMonth {
 
     public QuiltingStatisticsFromMonth(double averageLmt, double averageTotalLoss, int month) {
         this.averageLmt = averageLmt;
-        this.averageTotalLoss = averageTotalLoss;
+        this.averageTotalLoss = averageTotalLoss + 0.01;
         this.month = month;
     }
 
