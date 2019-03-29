@@ -11,11 +11,6 @@ import java.util.TimeZone;
 @EnableScheduling
 public class EmsApplication {
 
-	@PostConstruct
-	void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(EmsApplication.class, args);
 	}

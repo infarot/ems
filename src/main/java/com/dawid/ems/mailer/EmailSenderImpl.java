@@ -1,6 +1,7 @@
 package com.dawid.ems.mailer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,8 @@ import javax.mail.internet.MimeMessage;
 public class EmailSenderImpl implements EmailSender {
 
     private final JavaMailSender javaMailSender;
+    @Value("${spring.mail.username}")
+    private String email;
 
     @Autowired
     public EmailSenderImpl(JavaMailSender javaMailSender) {
@@ -24,8 +27,8 @@ public class EmailSenderImpl implements EmailSender {
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
             helper.setTo(to);
-            helper.setReplyTo("mck9999.biuro@2com.pl");
-            helper.setFrom("mck9999.biuro@2com.pl");
+            helper.setReplyTo(email);
+            helper.setFrom(email);
             helper.setSubject(subject);
             helper.setText(content, true);
         } catch (MessagingException e) {
