@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -60,7 +61,9 @@ public class QuiltingServiceImpl implements QuiltingService {
 
     @Override
     public List<QuiltingData> getAll() {
-        return addQuiltingStatistics(quiltingDataRepository.findAll());
+        List<QuiltingData> quiltingData = addQuiltingStatistics(quiltingDataRepository.findAll());
+        quiltingData.sort(Comparator.comparing(QuiltingData::getId));
+        return quiltingData;
     }
 
     @Override

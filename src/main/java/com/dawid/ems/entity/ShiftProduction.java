@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="shift_production")
@@ -29,6 +30,8 @@ public class ShiftProduction implements Comparable<ShiftProduction> {
     private Double potentialUtilization;
     @Column(name = "work_organization")
     private Double workOrganization;
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 
     public ShiftProduction(String id, LocalDate date, Character shift, Double perSeamstress, Double perSeamstressQc, Double perEmployee, Double result, Double potentialUtilization, Double workOrganization) {
         this.id = id;
@@ -43,6 +46,14 @@ public class ShiftProduction implements Comparable<ShiftProduction> {
     }
 
     public ShiftProduction() {
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getId() {
