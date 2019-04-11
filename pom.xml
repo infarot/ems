@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.dawid</groupId>
     <artifactId>ems</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>ems</name>
     <description>Employee Management System API</description>
 
@@ -64,6 +64,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
