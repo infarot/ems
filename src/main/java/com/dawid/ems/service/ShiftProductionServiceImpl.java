@@ -40,8 +40,7 @@ public class ShiftProductionServiceImpl implements ShiftProductionService {
     @Override
     @Transactional
     public List<ShiftProduction> getAll() {
-        Optional<List<ShiftProduction>> o = shiftProductionDAO.getAll();
-        return o.orElse(new ArrayList<>());
+        return shiftProductionDAO.getAll();
     }
 
 

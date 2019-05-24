@@ -24,41 +24,6 @@ public class SeamstressServiceImpl implements SeamstressService {
         this.seamstressDAO = seamstressDAO;
     }
 
-    private double getAverageResult(int seamstressId) {
-        List<Result> results = getAllResults(seamstressId);
-        return calculateAverage(results);
-    }
-
-    private double getScore(int seamstressId) {
-        List<Result> results = getAllResults(seamstressId);
-        return Precision.round(results.stream().mapToDouble(Result::getPercentageResult).sum(), 2);
-    }
-
-    private Double calculateAverage(List<Result> results) {
-        Map<LocalDate, List<Result>> map = results.stream().collect(
-                Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
-        //sum all results from one day
-        Map<LocalDate, Double> percentageResultMap = new HashMap<>();
-        for (LocalDate d : map.keySet()) {
-            percentageResultMap.put(d, map.get(d).stream().mapToDouble(Result::getPercentageResult).sum());
-        }
-        //calculate average and ignore results which are less then 50 %
-        OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 50).mapToDouble(a -> a).average();
-        if (average.isPresent()) {
-            return Precision.round(average.getAsDouble(), 2);
-        } else {
-            return 0.0;
-        }
-    }
-
-    private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
-        List<Result> results = getAllResultsFromDateInterval(seamstressId, from, to);
-        return calculateAverage(results);
-    }
-
-    private Double getScoreFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
-        return Precision.round(getAllResultsFromDateInterval(seamstressId, from, to).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
-    }
 
     @Override
     public List<Result> getDailyResults(int id) {
@@ -133,6 +98,43 @@ public class SeamstressServiceImpl implements SeamstressService {
         seamstress.setAverage(getAverageResult(id));
         seamstress.setScore(getScore(id));
         return seamstress;
+    }
+
+
+    private double getAverageResult(int seamstressId) {
+        List<Result> results = getAllResults(seamstressId);
+        return calculateAverage(results);
+    }
+
+    private double getScore(int seamstressId) {
+        List<Result> results = getAllResults(seamstressId);
+        return Precision.round(results.stream().mapToDouble(Result::getPercentageResult).sum(), 2);
+    }
+
+    private Double calculateAverage(List<Result> results) {
+        Map<LocalDate, List<Result>> map = results.stream().collect(
+                Collectors.groupingBy(Result::getDate, HashMap::new, Collectors.toList()));
+        //sum all results from one day
+        Map<LocalDate, Double> percentageResultMap = new HashMap<>();
+        for (LocalDate d : map.keySet()) {
+            percentageResultMap.put(d, map.get(d).stream().mapToDouble(Result::getPercentageResult).sum());
+        }
+        //calculate average and ignore results which are less then 50 %
+        OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 50).mapToDouble(a -> a).average();
+        if (average.isPresent()) {
+            return Precision.round(average.getAsDouble(), 2);
+        } else {
+            return 0.0;
+        }
+    }
+
+    private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        List<Result> results = getAllResultsFromDateInterval(seamstressId, from, to);
+        return calculateAverage(results);
+    }
+
+    private Double getScoreFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
+        return Precision.round(getAllResultsFromDateInterval(seamstressId, from, to).stream().mapToDouble(Result::getPercentageResult).sum(), 2);
     }
 
 

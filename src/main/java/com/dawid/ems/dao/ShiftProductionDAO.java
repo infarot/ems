@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface ShiftProductionDAO {
 
-    Optional<List<ShiftProduction>> getAll();
+    List<ShiftProduction> getAll();
 
 }

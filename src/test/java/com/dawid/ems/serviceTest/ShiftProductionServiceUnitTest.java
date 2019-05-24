@@ -41,7 +41,7 @@ public class ShiftProductionServiceUnitTest {
                 new ShiftProduction("1", LocalDate.of(2019, 3, 25),
                         'A', 2.0, 3.0, 4.0, 5.0,
                         6.0, 7.0));
-        Mockito.when(shiftProductionDAO.getAll()).thenReturn(Optional.of(list));
+        Mockito.when(shiftProductionDAO.getAll()).thenReturn(list);
         Assert.assertEquals(instance.getAll(), list);
     }
 
@@ -64,7 +64,7 @@ public class ShiftProductionServiceUnitTest {
 
         StatisticsFromMonth statistics = new StatisticsFromMonth(3.0, 4.0, 7.0, 3);
 
-        Mockito.when(shiftProductionDAO.getAll()).thenReturn(Optional.of(list));
+        Mockito.when(shiftProductionDAO.getAll()).thenReturn(list);
         Assert.assertEquals(instance.getStatisticsFromMonth(3, 2019), statistics);
     }
 }

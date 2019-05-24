@@ -21,10 +21,10 @@ public class ShiftProductionDAOImpl implements ShiftProductionDAO {
     }
 
     @Override
-    public Optional<List<ShiftProduction>> getAll() {
+    public List<ShiftProduction> getAll() {
         Session session = entityManager.unwrap(Session.class);
         Query<ShiftProduction> query = session.createQuery("from ShiftProduction", ShiftProduction.class);
-        return Optional.of(query.getResultList());
+        return query.getResultList();
     }
 
 }
