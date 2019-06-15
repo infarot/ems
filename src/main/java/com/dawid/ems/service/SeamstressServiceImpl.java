@@ -121,11 +121,7 @@ public class SeamstressServiceImpl implements SeamstressService {
         }
         //calculate average and ignore results which are less then 50 %
         OptionalDouble average = percentageResultMap.values().stream().filter(a -> a > 50).mapToDouble(a -> a).average();
-        if (average.isPresent()) {
-            return Precision.round(average.getAsDouble(), 2);
-        } else {
-            return 0.0;
-        }
+        return average.orElse(0.00);
     }
 
     private Double getAverageResultFromDateInterval(int seamstressId, LocalDate from, LocalDate to) {
