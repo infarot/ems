@@ -13,4 +13,6 @@ public interface SeamstressDAO {
     Optional<Seamstress> getSingle(int id);
 
     List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
+
+    int save(Seamstress seamstress);
 }

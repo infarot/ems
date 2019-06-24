@@ -82,6 +82,11 @@ public class SeamstressServiceImpl implements SeamstressService {
     }
 
     @Override
+    public int createNew(Seamstress seamstress) {
+        return seamstressDAO.save(seamstress);
+    }
+
+    @Override
     @Transactional
     public List<Seamstress> getAll() {
         List<Seamstress> seamstresses = seamstressDAO.getAll();

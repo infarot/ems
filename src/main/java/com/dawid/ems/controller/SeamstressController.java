@@ -2,11 +2,13 @@ package com.dawid.ems.controller;
 
 import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
-import com.dawid.ems.exception.ResourceNotFoundException;
+import com.dawid.ems.payload.SeamstressCreation;
 import com.dawid.ems.service.SeamstressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -57,6 +59,15 @@ public class SeamstressController {
     @GetMapping("/seamstress/dailyResults/{seamstressId}")
     public List<Result> getDailyResults(@PathVariable int seamstressId) {
         return seamstressService.getDailyResults(seamstressId);
+    }
+
+    @PostMapping("/seamstress")
+    @ResponseStatus(HttpStatus.CREATED)
+    public SeamstressCreation createNew(@RequestBody @Valid Seamstress seamstress) {
+        SeamstressCreation seamstressCreation = new SeamstressCreation();
+        int id = seamstressService.createNew(seamstress);
+        seamstressCreation.setMessage("Seamstress with id: " + id + " has been created");
+        return seamstressCreation;
     }
 
 

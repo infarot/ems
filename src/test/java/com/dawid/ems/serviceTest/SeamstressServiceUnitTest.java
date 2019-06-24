@@ -35,30 +35,40 @@ public class SeamstressServiceUnitTest {
 
     @Test
     public void isCalculatingProperAverageResult() {
-        Seamstress seamstress = new Seamstress(1,"Test", "Test");
+        Seamstress seamstress = new Seamstress(1, "Test", "Test");
         List<Result> resultList = Arrays.asList(
-                new Result("1", LocalDate.of(2004,3,15), 99.0, 'A', seamstress),
-                new Result("2", LocalDate.of(2004,3,15), 1.0, 'B', seamstress),
-                new Result("3", LocalDate.of(2005,4,20), 100.0, 'A', seamstress));
+                new Result("1", LocalDate.of(2004, 3, 15), 99.0, 'A', seamstress),
+                new Result("2", LocalDate.of(2004, 3, 15), 1.0, 'B', seamstress),
+                new Result("3", LocalDate.of(2005, 4, 20), 100.0, 'A', seamstress));
         seamstress.setResults(resultList);
 
         Mockito.when(seamstressDAO.getSingle(1)).thenReturn(Optional.of(seamstress));
-        Assert.assertEquals(new Seamstress(2,"Test","Test",100.0,200.0).getAverage(), instance.getSingle(1).getAverage());
+        Assert.assertEquals(new Seamstress(2, "Test", "Test", 100.0, 200.0).getAverage(), instance.getSingle(1).getAverage());
 
     }
 
     @Test
     public void isCalculatingProperScore() {
-        Seamstress seamstress = new Seamstress(1,"Test", "Test");
+        Seamstress seamstress = new Seamstress(1, "Test", "Test");
         List<Result> resultList = Arrays.asList(
-                new Result("1", LocalDate.of(2004,3,15), 99.0, 'A', seamstress),
-                new Result("1", LocalDate.of(2005,4,20), 101.0, 'A', seamstress));
+                new Result("1", LocalDate.of(2004, 3, 15), 99.0, 'A', seamstress),
+                new Result("1", LocalDate.of(2005, 4, 20), 101.0, 'A', seamstress));
         seamstress.setResults(resultList);
 
         Mockito.when(seamstressDAO.getSingle(1)).thenReturn(Optional.of(seamstress));
-        Assert.assertEquals(new Seamstress(2,"Test","Test",100.0,200.0).getScore(), instance.getSingle(1).getScore());
+        Assert.assertEquals(new Seamstress(2, "Test", "Test", 100.0, 200.0).getScore(), instance.getSingle(1).getScore());
 
     }
 
+    @Test
+    public void isAbleToAddNewSeamstress() {
+        Seamstress seamstress = new Seamstress();
+        seamstress.setName("TestName");
+        seamstress.setLastName("TestLastName");
 
+        Mockito.when(seamstressDAO.save(seamstress)).thenReturn(1);
+
+        Assert.assertEquals(instance.createNew(seamstress), 1);
+        Mockito.verify(seamstressDAO, Mockito.times(1)).save(seamstress);
+    }
 }

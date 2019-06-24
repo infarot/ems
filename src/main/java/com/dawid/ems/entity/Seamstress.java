@@ -1,8 +1,12 @@
 package com.dawid.ems.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,8 +19,12 @@ public class Seamstress implements Comparable<Seamstress> {
     @Column(name = "id")
     private int id;
     @Column(name = "name")
+    @Length(min = 2)
+    @Length(max = 15)
     private String name;
     @Column(name = "last_name")
+    @Length(min = 2)
+    @Length(max = 15)
     private String lastName;
     @OneToMany(mappedBy = "seamstress", fetch = FetchType.LAZY)
     private List<Result> results;

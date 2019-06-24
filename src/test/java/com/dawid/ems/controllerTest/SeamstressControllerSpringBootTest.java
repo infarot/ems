@@ -4,10 +4,12 @@ import com.dawid.ems.entity.Result;
 import com.dawid.ems.entity.Seamstress;
 import com.dawid.ems.exception.SeamstressNotFoundException;
 import com.dawid.ems.service.SeamstressService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,6 +29,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -36,6 +39,9 @@ public class SeamstressControllerSpringBootTest {
 
     @Autowired
     private WebApplicationContext context;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     private SeamstressService seamstressService;
@@ -223,5 +229,34 @@ public class SeamstressControllerSpringBootTest {
                 .andExpect(jsonPath("$.[0].id", Matchers.is(2)))
                 .andExpect(jsonPath("$.[0].lastName", Matchers.is("SLastName")))
                 .andExpect(jsonPath("$.[0].name", Matchers.is("SName")));
+    }
+
+    @Test
+    public void isAbleToAddNewSeamstress() throws Exception {
+        Seamstress seamstress = new Seamstress();
+        seamstress.setName("TestName");
+        seamstress.setLastName("TestLastName");
+        given(seamstressService.createNew(seamstress)).willReturn(1);
+
+        mvc.perform(post("/api/seamstress")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(seamstress)))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(jsonPath("$.message", Matchers.is("Seamstress with id: 1 has been created")))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void isUnableToAddNewSeamstressWithInvalidCredentials() throws Exception {
+        Seamstress seamstress = new Seamstress();
+        seamstress.setName("a");
+        seamstress.setLastName("b");
+
+        mvc.perform(post("/api/seamstress")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(seamstress)))
+                .andExpect(content().contentType("application/json;charset=UTF-8"))
+                .andExpect(status().is4xxClientError());
+        Mockito.verify(seamstressService, Mockito.never()).createNew(seamstress);
     }
 }

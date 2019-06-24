@@ -19,4 +19,6 @@ public interface SeamstressService {
     List<Seamstress> getFromDateInterval(LocalDate from, LocalDate to);
 
     List<Result> getAllResultsFromDateInterval(int seamstressId, LocalDate from, LocalDate to);
+
+    int createNew(Seamstress seamstress);
 }
