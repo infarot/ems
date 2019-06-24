@@ -52,8 +52,7 @@ public class SeamstressDAOImpl implements SeamstressDAO {
     @Override
     public int save(Seamstress seamstress) {
         Session session = entityManager.unwrap(Session.class);
-        Seamstress seamstress1 = (Seamstress) session.save(seamstress);
-        return seamstress1.getId();
+        return (int) session.save(seamstress);
     }
 
 }
